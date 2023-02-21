@@ -8,7 +8,7 @@ const Square = (coordinates) => {
     id: null,
     isHit: false,
     hasShip: false,
-    shipName: null,
+    shipName: '',
   };
 };
 
@@ -17,7 +17,9 @@ export const Ship = (length, name = 'ship') => {
     getHit() {
       --this.hitPoints;
 
-      if (this.hitPoints <= 0) this.isSunk = true;
+      if (this.hitPoints <= 0) {
+        this.isSunk = true;
+      }
     },
     rotate() {
       this.orientation =
@@ -39,7 +41,6 @@ export const Ship = (length, name = 'ship') => {
 export const Board = (gridLength = 10) => {
   let size = gridLength ** 2;
   let state = [];
-  let owner = null;
 
   const proto = {
     findSquareWithID(id) {
@@ -88,6 +89,35 @@ export const Board = (gridLength = 10) => {
       targetSquares.forEach((square) => {
         square.shipName = ship.name;
         square.hasShip = true;
+      });
+    },
+
+    explodeShip(coordinates) {
+      const shipToExplode = this.findSquareWithRowCol(coordinates).shipName;
+
+      const shipSquares = state.filter(
+        (square) => square.shipName === shipToExplode,
+      );
+
+      const surroundingSquares = [];
+
+      const surroundingValues = [-1, 0, 1];
+
+      shipSquares.forEach((square) => {
+        for (let i = 0; i < surroundingValues.length; i++) {
+          for (let j = 0; j < surroundingValues.length; j++) {
+            surroundingSquares.push(
+              this.findSquareWithRowCol([
+                +square.row + surroundingValues[i],
+                +square.column + surroundingValues[j],
+              ]),
+            );
+          }
+        }
+      });
+
+      surroundingSquares.forEach((square) => {
+        square.isHit = true;
       });
     },
   };
@@ -158,3 +188,15 @@ export const Game = (() => ({
   playStatus: true,
   currentPlayer: null,
 }))();
+
+// surroundingValues.forEach((val) => {
+//   surroundingSquares.push(
+//     this.findSquareWithRowCol([+square.row + val, +square.column]),
+//   );
+// });
+
+// surroundingValues.forEach((val) => {
+//   surroundingSquares.push(
+//     this.findSquareWithRowCol([+square.row, +square.column + val]),
+//   );
+// });

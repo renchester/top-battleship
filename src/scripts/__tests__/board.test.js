@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 
-import { Board, Ship } from '../model';
+import { Board, Ship, Player } from '../model';
 
 describe('board', () => {
   test('creates a grid with the same height and width', () => {
@@ -89,5 +89,18 @@ describe('board', () => {
     expect(sampleBoard.findSquareWithRowCol([2, 2])).toEqual(
       sampleBoard.state[4],
     );
+  });
+
+  test('hits all surrounding squares around ship when it is sunk', () => {
+    const player1 = Player('one');
+    const player2 = Player('two');
+
+    player2.ships.push(Ship(1, 'patroller'));
+    player2.board = Board(3);
+    player2.board.placeShip([2, 2], player2.ships[0]);
+
+    player1.attack(player2, [2, 2]);
+
+    expect(player2.board.state.every((square) => square.isHit)).toBeTruthy();
   });
 });
