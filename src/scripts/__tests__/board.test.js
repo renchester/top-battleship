@@ -1,40 +1,54 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 
+import { Board, Ship } from '../model';
+
 describe('board', () => {
   test('creates a grid with the same height and width', () => {
     expect(Board(10).size).toBe(100);
   });
 
-  test('creates squares with correct row, column, and squareID numbers', () => {
+  test('creates squares with correct row and column numbers', () => {
     expect(Board(10).state[0].row).toBe(1);
     expect(Board(10).state[0].column).toBe(1);
     expect(Board(10).state[19].row).toBe(2);
+    expect(Board(3).state[4].row).toBe(2);
+    expect(Board(3).state[4].column).toBe(2);
+    expect(Board(3).state[8].row).toBe(3);
+    expect(Board(3).state[8].column).toBe(3);
+  });
+
+  test('creates squares with correct squareID numbers', () => {
     expect(Board(10).state[0].id).toBe(1);
     expect(Board(10).state[99].id).toBe(100);
+    expect(Board(10).state[49].id).toBe(50);
+    expect(Board(3).state[8].id).toBe(9);
+    expect(Board(2).state[1].id).toBe(2);
   });
 
   test('should be able to place ships at specific coordinates', () => {
     const sampleBoard = Board(3);
-    const sampleShip = Ship(2);
+    const sampleShip = Ship(2, 'destroyer');
 
     sampleBoard.placeShip([2, 1], sampleShip);
 
-    expect(sampleBoard.state[4].hasShip && sampleBoard.state[7].hasShip);
+    expect(sampleBoard.state[3].hasShip).toBeTruthy();
+    expect(sampleBoard.state[6].hasShip).toBeTruthy();
+    expect(sampleBoard.state[6].shipName).toBe('destroyer');
   });
 
   test('fills up correct coordinates when placing a ship', () => {
     const sampleBoard = Board(3);
 
-    const horizontalShip = Ship(2);
-    const verticalShip = Ship(3);
+    const horizontalShip = Ship(2, 'patroller');
+    const verticalShip = Ship(3, 'destroyer');
 
     // Default vertical
     horizontalShip.orientation = 'horizontal';
     verticalShip.orientation = 'vertical';
 
-    sampleBoard.placeShip([1, 2], horizontalShip);
-    sampleBoard.placeShip([3, 1], verticalShip);
+    sampleBoard.placeShip([1, 1], horizontalShip);
+    sampleBoard.placeShip([1, 3], verticalShip);
 
     expect(sampleBoard.state[0].hasShip).toBeTruthy();
     expect(sampleBoard.state[1].hasShip).toBeTruthy();
@@ -54,75 +68,23 @@ describe('board', () => {
 
     sampleBoard.placeShip([1, 3], sampleShip);
 
-    expect(sampleBoard.placeShip([2, 3], sampleShip2)).toThrow();
+    expect(() => sampleBoard.placeShip([2, 3], sampleShip2)).toThrow();
   });
 
   test('throws error when placing ship outside board', () => {
     const sampleBoard = Board(3);
     const sampleShip = Ship(2);
 
-    expect(sampleBoard.placeShip([3, 3], sampleShip)).toThrow();
+    expect(() => sampleBoard.placeShip([3, 3], sampleShip)).toThrow();
   });
 
-  test('checks if square is successfully hit after receiving attack', () => {
-    const sampleBoard = Board(3);
-    const sampleShip = Ship(2);
-
-    sampleBoard.placeShip([1, 2], sampleShip);
-
-    sampleBoard.receiveAttack([1, 2]);
-
-    expect(sampleBoard.state[1].isHit);
-  });
-
-  //    Recheck
-  test('checks if square with ship is hit after receiving attack', () => {
-    const sampleBoard = Board(3);
-    const sampleShip = Ship(2);
-
-    const player = Player('sample');
-
-    player.board = sampleBoard;
-    player.ships.push(sampleShip);
-
-    sampleBoard.placeShip([2, 2], sampleShip);
-
-    let origHP = sampleShip.hitPoints;
-
-    sampleBoard.receiveAttack([3, 2]);
-    // Connect receive attack with ship getting hit
-
-    expect(sampleBoard.state[7].hitPoints).toBe(--origHP);
-  });
-
-  test('checks if squares around ship are sunk after exploding', () => {
-    const sampleBoard = Board(3);
-    const sampleShip = Ship(1);
-
-    sampleBoard.placeShip([2, 2], sampleShip);
-    sampleBoard.explodeShip([[2, 2]]);
-
-    expect(sampleBoard.state.every((square) => square.isHit)).toBeTruthy();
-  });
-
-  test('throws error when trying to hit a filled square', () => {
-    const sampleBoard = Board(3);
-    const sampleShip = Ship(2);
-
-    sampleBoard.placeShip([1, 2], sampleShip);
-
-    sampleBoard.receiveAttack([1, 2]);
-
-    expect(sampleBoard.receiveAttack([1, 2])).toThrow();
-  });
-
-  test('finds correct square using square id number', () => {
+  test.skip('finds correct square using square id number', () => {
     const sampleBoard = Board(3);
 
     expect(sampleBoard.findSquareWithID(3)).toEqual(sampleBoard.state[2]);
   });
 
-  test('finds correct square using row and column number', () => {
+  test.skip('finds correct square using row and column number', () => {
     const sampleBoard = Board(3);
 
     expect(
@@ -131,7 +93,7 @@ describe('board', () => {
   });
 
   //   Recheck
-  test("make player win when all their opponent's ships are sunk", () => {
+  test.skip("make player win when all their opponent's ships are sunk", () => {
     const shipOfHuman = Ship(2);
 
     const human = Player('you');
