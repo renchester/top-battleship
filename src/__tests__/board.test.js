@@ -1,7 +1,4 @@
-// const sampleBoard = Board(10);
-
-const Board = () => {};
-const Ship = () => {};
+/* eslint-disable no-undef */
 
 describe('board', () => {
   test('creates a grid with the same height and width', () => {
@@ -140,27 +137,5 @@ describe('board', () => {
     // need a function in/after receiveattack that checks if all ships are sunk
 
     expect(game.winner.name).toBe('computer');
-  });
-});
-
-describe('ship', () => {
-  test('ship gets correct name on init', () => {
-    expect(Ship(3).name).toBe('destroyer');
-    expect(Ship(5).name).toBe('carrier');
-  });
-
-  test('decreases hit points when hit', () => {
-    const sampleShip = Ship(3);
-    sampleShip.getHit();
-
-    expect(sampleShip.hitPoints).toBe(2);
-  });
-
-  test('should be sunk when ship length is equal to hit points', () => {
-    const sampleShip = Ship(2);
-    sampleShip.getHit();
-    sampleShip.getHit();
-
-    expect(sampleShip.isSunk).toBeTruthy();
   });
 });
