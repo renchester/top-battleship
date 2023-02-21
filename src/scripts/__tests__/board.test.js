@@ -1,4 +1,3 @@
-/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 
 import { Board, Ship } from '../model';
@@ -78,37 +77,17 @@ describe('board', () => {
     expect(() => sampleBoard.placeShip([3, 3], sampleShip)).toThrow();
   });
 
-  test.skip('finds correct square using square id number', () => {
+  test('finds correct square using square id number', () => {
     const sampleBoard = Board(3);
 
     expect(sampleBoard.findSquareWithID(3)).toEqual(sampleBoard.state[2]);
   });
 
-  test.skip('finds correct square using row and column number', () => {
+  test('finds correct square using row and column number', () => {
     const sampleBoard = Board(3);
 
-    expect(
-      sampleBoard.findSquareWithRowCol([2, 2]).toEqual(sampleBoard.state[5]),
+    expect(sampleBoard.findSquareWithRowCol([2, 2])).toEqual(
+      sampleBoard.state[4],
     );
-  });
-
-  //   Recheck
-  test.skip("make player win when all their opponent's ships are sunk", () => {
-    const shipOfHuman = Ship(2);
-
-    const human = Player('you');
-    const ai = Player('computer');
-
-    const game = Game(human, ai);
-
-    human.board = Board(3);
-
-    human.board.placeShip([2, 2], shipOfHuman);
-    boardOfHuman.receiveAttack([2, 2]);
-    boardOfHuman.receiveAttack([3, 2]);
-
-    // need a function in/after receiveattack that checks if all ships are sunk
-
-    expect(game.winner.name).toBe('computer');
   });
 });
