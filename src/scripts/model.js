@@ -1,5 +1,3 @@
-console.log(1);
-
 const Square = (coordinates) => {
   const [row, column] = coordinates;
 
@@ -65,13 +63,25 @@ export const Board = (gridLength = 10) => {
         // column remains same
 
         for (let i = 0; i < length; i++) {
-          targetSquares.push(this.findSquareWithRowCol([+row + i, col]));
+          const target = this.findSquareWithRowCol([+row + i, col]);
+
+          if (!target || target.hasShip) {
+            throw new Error('Cannot place ship on non-empty square');
+          }
+
+          targetSquares.push(target);
         }
       } else if (orientation === 'horizontal') {
         // row remains same
 
         for (let i = 0; i < length; i++) {
-          targetSquares.push(this.findSquareWithRowCol([row, +col + i]));
+          const target = this.findSquareWithRowCol([row, +col + i]);
+
+          if (!target || target.hasShip) {
+            throw new Error('Cannot place ship on non-empty square');
+          }
+
+          targetSquares.push(target);
         }
       }
 
