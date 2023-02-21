@@ -31,7 +31,6 @@ export const Ship = (length, name = 'ship') => {
     name,
     length,
     hitPoints: length,
-    coordinates: [],
     orientation: 'vertical',
     isSunk: false,
   };

@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+import { Ship, Board } from '../model';
 
 describe('ship', () => {
   test('decreases hit points when hit', () => {
@@ -8,7 +9,7 @@ describe('ship', () => {
     expect(sampleShip.hitPoints).toBe(2);
   });
 
-  test('should be sunk when ship length is equal to hit points', () => {
+  test('should be sunk when ship hit points is equal to zero', () => {
     const sampleShip = Ship(2);
     sampleShip.getHit();
     sampleShip.getHit();
@@ -16,32 +17,13 @@ describe('ship', () => {
     expect(sampleShip.isSunk).toBeTruthy();
   });
 
-  test('returns correct coordinates', () => {
-    const sampleBoard = Board(3);
+  test('rotates correctly', () => {
     const sampleShip = Ship(2);
 
-    sampleBoard.placeShip([2, 2], sampleShip);
-
-    const expectedCoordinates = [
-      [2, 2],
-      [3, 2],
-    ];
-
-    expect(sampleShip.coordinates).toEqual(expectedCoordinates);
-  });
-
-  test('returns correct coordinates on horizontal orientation', () => {
-    const sampleBoard = Board(3);
-    const sampleShip = Ship(2);
+    expect(sampleShip.orientation).toBe('vertical');
 
     sampleShip.rotate();
-    sampleBoard.placeShip([2, 2], sampleShip);
 
-    const expectedCoordinates = [
-      [2, 2],
-      [2, 3],
-    ];
-
-    expect(sampleShip.coordinates).toEqual(expectedCoordinates);
+    expect(sampleShip.orientation).toBe('horizontal');
   });
 });
