@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-undef */
 
 describe('board', () => {
@@ -92,6 +93,16 @@ describe('board', () => {
     // Connect receive attack with ship getting hit
 
     expect(sampleBoard.state[7].hitPoints).toBe(--origHP);
+  });
+
+  test('checks if squares around ship are sunk after exploding', () => {
+    const sampleBoard = Board(3);
+    const sampleShip = Ship(1);
+
+    sampleBoard.placeShip([2, 2], sampleShip);
+    sampleBoard.explodeShip([[2, 2]]);
+
+    expect(sampleBoard.state.every((square) => square.isHit)).toBeTruthy();
   });
 
   test('throws error when trying to hit a filled square', () => {
