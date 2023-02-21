@@ -8,8 +8,6 @@ describe('board', () => {
     expect(Board(10).size).toBe(100);
   });
 
-  test('throws error when given size is less than 0', () => {});
-
   test('creates squares with correct row, column, and squareID numbers', () => {
     expect(Board(10).state[0].row).toBe(1);
     expect(Board(10).state[0].column).toBe(1);
@@ -40,12 +38,15 @@ describe('board', () => {
     sampleBoard.placeShip([1, 2], horizontalShip);
     sampleBoard.placeShip([3, 1], verticalShip);
 
-    expect(sampleBoard.state[0].hasShip && sampleBoard.state[1].hasShip);
-    expect(
-      sampleBoard.state[2].hasShip &&
-        sampleBoard.state[5].hasShip &&
-        sampleBoard.state[8].hasShip,
-    );
+    expect(sampleBoard.state[0].hasShip).toBeTruthy();
+    expect(sampleBoard.state[1].hasShip).toBeTruthy();
+    expect(sampleBoard.state[0].hasShip).toEqual(sampleBoard.state[1].hasShip);
+
+    expect(sampleBoard.state[2].hasShip).toBeTruthy();
+    expect(sampleBoard.state[5].hasShip).toBeTruthy();
+    expect(sampleBoard.state[8].hasShip).toBeTruthy();
+    expect(sampleBoard.state[2].hasShip).toEqual(sampleBoard.state[5].hasShip);
+    expect(sampleBoard.state[5].hasShip).toEqual(sampleBoard.state[8].hasShip);
   });
 
   test('returns error/false when placing ship on a filled square', () => {
@@ -93,7 +94,7 @@ describe('board', () => {
     sampleBoard.receiveAttack([3, 2]);
     // Connect receive attack with ship getting hit
 
-    expect(sampleBoard.state[7].hitPoints).toBe(origHP--);
+    expect(sampleBoard.state[7].hitPoints).toBe(--origHP);
   });
 
   test('throws error when trying to hit a filled square', () => {
@@ -107,9 +108,22 @@ describe('board', () => {
     expect(sampleBoard.receiveAttack([1, 2])).toThrow();
   });
 
+  test('finds correct square using square id number', () => {
+    const sampleBoard = Board(3);
+
+    expect(sampleBoard.findSquareWithID(3)).toEqual(sampleBoard.state[2]);
+  });
+
+  test('finds correct square using row and column number', () => {
+    const sampleBoard = Board(3);
+
+    expect(
+      sampleBoard.findSquareWithRowCol([2, 2]).toEqual(sampleBoard.state[5]),
+    );
+  });
+
   //   Recheck
   test("make player win when all their opponent's ships are sunk", () => {
-    const boardOfHuman = Board(3);
     const shipOfHuman = Ship(2);
 
     const human = Player('you');
@@ -117,10 +131,9 @@ describe('board', () => {
 
     const game = Game(human, ai);
 
-    human.board = boardOfHuman;
-    human.ships.push(shipOfHuman);
+    human.board = Board(3);
 
-    boardOfHuman.placeShip([2, 2], shipOfHuman);
+    human.board.placeShip([2, 2], shipOfHuman);
     boardOfHuman.receiveAttack([2, 2]);
     boardOfHuman.receiveAttack([3, 2]);
 
@@ -148,10 +161,6 @@ describe('ship', () => {
     sampleShip.getHit();
     sampleShip.getHit();
 
-    expect(sampleShip.isSunk).toBe(true);
+    expect(sampleShip.isSunk).toBeTruthy();
   });
-});
-
-describe('player', () => {
-  test('');
 });
