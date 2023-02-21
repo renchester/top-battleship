@@ -11,18 +11,20 @@ describe('board', () => {
   test('throws error when given size is less than 0', () => {});
 
   test('creates squares with correct row, column, and squareID numbers', () => {
-    expect(Board(10).state[0].row).toBe(10);
+    expect(Board(10).state[0].row).toBe(1);
     expect(Board(10).state[0].column).toBe(1);
-    expect(Board(10).state[0].id).toBe(90);
+    expect(Board(10).state[19].row).toBe(2);
+    expect(Board(10).state[0].id).toBe(1);
+    expect(Board(10).state[99].id).toBe(100);
   });
 
   test('should be able to place ships at specific coordinates', () => {
     const sampleBoard = Board(3);
     const sampleShip = Ship(2);
 
-    sampleBoard.placeShip([1, 3], sampleShip);
+    sampleBoard.placeShip([2, 1], sampleShip);
 
-    expect(sampleBoard.state[3].hasShip && sampleBoard.state[6].hasShip);
+    expect(sampleBoard.state[4].hasShip && sampleBoard.state[7].hasShip);
   });
 
   test('fills up correct coordinates when placing a ship', () => {
@@ -31,17 +33,18 @@ describe('board', () => {
     const horizontalShip = Ship(2);
     const verticalShip = Ship(3);
 
+    // Default vertical
     horizontalShip.orientation = 'horizontal';
     verticalShip.orientation = 'vertical';
 
     sampleBoard.placeShip([1, 2], horizontalShip);
     sampleBoard.placeShip([3, 1], verticalShip);
 
-    expect(sampleBoard.state[7].hasShip && sampleBoard.state[8].hasShip);
+    expect(sampleBoard.state[0].hasShip && sampleBoard.state[1].hasShip);
     expect(
-      sampleBoard.state[0].hasShip &&
-        sampleBoard.state[3].hasShip &&
-        sampleBoard.state[6].hasShip,
+      sampleBoard.state[2].hasShip &&
+        sampleBoard.state[5].hasShip &&
+        sampleBoard.state[8].hasShip,
     );
   });
 
@@ -52,14 +55,14 @@ describe('board', () => {
 
     sampleBoard.placeShip([1, 3], sampleShip);
 
-    expect(sampleBoard.placeShip([1, 2], sampleShip2)).toThrow();
+    expect(sampleBoard.placeShip([2, 3], sampleShip2)).toThrow();
   });
 
   test('throws error when placing ship outside board', () => {
     const sampleBoard = Board(3);
     const sampleShip = Ship(2);
 
-    expect(sampleBoard.placeShip([1, 1], sampleShip)).toThrow();
+    expect(sampleBoard.placeShip([3, 3], sampleShip)).toThrow();
   });
 
   test('checks if square is successfully hit after receiving attack', () => {
@@ -68,9 +71,9 @@ describe('board', () => {
 
     sampleBoard.placeShip([1, 2], sampleShip);
 
-    sampleBoard.receiveAttack([1, 3]);
+    sampleBoard.receiveAttack([1, 2]);
 
-    expect(sampleBoard.state[0].isHit);
+    expect(sampleBoard.state[1].isHit);
   });
 
   //    Recheck
@@ -78,11 +81,19 @@ describe('board', () => {
     const sampleBoard = Board(3);
     const sampleShip = Ship(2);
 
-    sampleBoard.placeShip([1, 2], sampleShip);
+    const player = Player('sample');
 
-    sampleBoard.receiveAttack([1, 2]);
+    player.board = sampleBoard;
+    player.ships.push(sampleShip);
 
-    expect(sampleBoard.state[3].isHit);
+    sampleBoard.placeShip([2, 2], sampleShip);
+
+    let origHP = sampleShip.hitPoints;
+
+    sampleBoard.receiveAttack([3, 2]);
+    // Connect receive attack with ship getting hit
+
+    expect(sampleBoard.state[7].hitPoints).toBe(origHP--);
   });
 
   test('throws error when trying to hit a filled square', () => {
@@ -101,22 +112,44 @@ describe('board', () => {
     const boardOfHuman = Board(3);
     const shipOfHuman = Ship(2);
 
-    const boardOfAI = Board(3);
-    const shipOfAI = Ship(2);
+    const human = Player('you');
+    const ai = Player('computer');
 
-    const human = Player();
-    const ai = Player();
+    const game = Game(human, ai);
+
+    human.board = boardOfHuman;
+    human.ships.push(shipOfHuman);
+
+    boardOfHuman.placeShip([2, 2], shipOfHuman);
+    boardOfHuman.receiveAttack([2, 2]);
+    boardOfHuman.receiveAttack([3, 2]);
+
+    // need a function in/after receiveattack that checks if all ships are sunk
+
+    expect(game.winner.name).toBe('computer');
   });
 });
 
 describe('ship', () => {
-  test('decreases hit points when hit', () => {
-    expect(Ship(3));
+  test('ship gets correct name on init', () => {
+    expect(Ship(3).name).toBe('destroyer');
+    expect(Ship(5).name).toBe('carrier');
   });
 
-  test('should be sunk when ship length is equal to hit points', () => {});
+  test('decreases hit points when hit', () => {
+    const sampleShip = Ship(3);
+    sampleShip.getHit();
 
-  //   test('should rotate when orientation is changed', () => {});
+    expect(sampleShip.hitPoints).toBe(2);
+  });
+
+  test('should be sunk when ship length is equal to hit points', () => {
+    const sampleShip = Ship(2);
+    sampleShip.getHit();
+    sampleShip.getHit();
+
+    expect(sampleShip.isSunk).toBe(true);
+  });
 });
 
 describe('player', () => {
