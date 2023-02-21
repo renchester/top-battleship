@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 describe('ship', () => {
   test('decreases hit points when hit', () => {
     const sampleShip = Ship(3);

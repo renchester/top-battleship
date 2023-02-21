@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 describe('player', () => {
   test('computer generates a random attack', () => {
     const human = Player('you');
