@@ -113,6 +113,48 @@ export const Board = (gridLength = 10) => {
   return Object.assign(Object.create(proto), {
     size,
     state,
-    owner,
   });
 };
+
+export const Player = (name = 'human') => {
+  const proto = {
+    attack(playerToAttack, coordinates) {
+      const targetSquare =
+        playerToAttack.board.findSquareWithRowCol(coordinates);
+      targetSquare.isHit = true;
+
+      if (targetSquare.hasShip) {
+        let targetShip = playerToAttack.ships.find(
+          (ship) => ship.name === targetSquare.shipName,
+        );
+
+        targetShip.getHit();
+
+        if (targetShip.isSunk) {
+          playerToAttack.board.explodeShip(coordinates);
+        }
+
+        if (playerToAttack.ships.every((ship) => ship.isSunk)) {
+          this.isWinner = true;
+        }
+      }
+    },
+  };
+
+  const props = {
+    name,
+    board: Board(10),
+    ships: [],
+    lastThreeMoves: [],
+    isWinner: false,
+    isPlaying: false,
+  };
+
+  return Object.assign(Object.create(proto), props);
+};
+
+export const Game = (() => ({
+  players: [],
+  playStatus: true,
+  currentPlayer: null,
+}))();
