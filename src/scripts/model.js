@@ -14,6 +14,31 @@ const Square = (coordinates) => {
   };
 };
 
+export const Ship = (length, name = 'ship') => {
+  const proto = {
+    getHit() {
+      --this.hitPoints;
+
+      if (this.hitPoints <= 0) this.isSunk = true;
+    },
+    rotate() {
+      this.orientation =
+        this.orientation === 'vertical' ? 'horizontal' : 'vertical';
+    },
+  };
+
+  const props = {
+    name,
+    length,
+    hitPoints: length,
+    coordinates: [],
+    orientation: 'vertical',
+    isSunk: false,
+  };
+
+  return Object.assign(Object.create(proto), props);
+};
+
 export const Board = (gridLength = 10) => {
   let size = gridLength ** 2;
   let state = [];
@@ -48,5 +73,3 @@ export const Board = (gridLength = 10) => {
     placeShip,
   };
 };
-
-export const Ship = (length, name = 'ship') => {};
