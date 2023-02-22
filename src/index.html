@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&family=Raleway&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+
+    <title>Battleship</title>
   </head>
   <body>
-    <header>
-      Battleship
+    <header class="header">
+      <h1 class="header__logo">Battleship</h1>
 
       <div class="switch">
         <input class="switch__input" type="checkbox" id="themeSwitch" />
@@ -18,8 +30,113 @@
         <div aria-hidden="true" class="switch__marker"></div>
       </div>
     </header>
-    <main>
-      <button type="button">Button</button>
+    <main class="container">
+      <form action="" method="" class="form__player-name hidden">
+        <label for="player-name" class="label__player-name">
+          Enter your name here:
+        </label>
+        <input
+          type="text"
+          class="input__player-name"
+          id="player-name"
+          placeholder="Enter your name here"
+          value="Combatant"
+          onclick="this.select()"
+        />
+        <button type="submit" class="btn btn__start">Start game</button>
+      </form>
+
+      <div class="screen screen__ship-placement">
+        <div class="board board__ship-placement">
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+          <div class="square"></div>
+        </div>
+        <div class="ships__display">
+          <div class="ship__wrapper">
+            <span class="ship__label">Carrier</span>
+            <div class="ship__icon"></div>
+          </div>
+          <div class="ship__wrapper">
+            <span class="ship__label">Carrier</span>
+            <div class="ship__icon"></div>
+          </div>
+        </div>
+        <button type="button" class="btn btn__randomize-ships"></button>
+      </div>
+
+      <div class="screen screen__game-display hidden">
+        <div class="board board__self">
+          <!-- <div
+            class="square square__empty"
+            data-row=""
+            data-column=""
+            data-id=""
+          ></div>
+          <div
+            class="square square__damaged"
+            data-row=""
+            data-column=""
+            data-id=""
+          ></div>
+          <div
+            class="square square__damaged square__has-ship"
+            data-row=""
+            data-column=""
+            data-id=""
+          ></div>
+          <div
+            class="square square__damaged square__has-ship square__sunken"
+            data-row=""
+            data-column=""
+            data-id=""
+          ></div>
+          <div
+            class="square square__damaged square__has-ship square__exploded"
+            data-row=""
+            data-column=""
+            data-id=""
+          ></div> -->
+        </div>
+        <div class="board board__opponent"></div>
+        <button class="btn btn__reset">Reset game</button>
+      </div>
+
+      <div class="modal modal__winner-display hidden">
+        <button class="btn btn__close-modal winner-display">X</button>
+        <span class="message message__winner-main">The winner is YES!</span>
+        <span class="message message__winner-sub"
+          >Congratulations! You have defeated the might</span
+        >
+        <button class="btn btn__start-again">Start a new game</button>
+      </div>
     </main>
     <footer class="footer">
       <a
@@ -36,5 +153,7 @@
         <p class="footer__desc">Developed by Renchester Ramos</p></a
       >
     </footer>
+
+    <div class="overlay"></div>
   </body>
 </html>
