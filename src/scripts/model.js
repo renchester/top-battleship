@@ -129,6 +129,8 @@ export const Board = (gridLength = 10) => {
       });
 
       surroundingSquares.forEach((square) => {
+        if (!square) return;
+
         square.isHit = true;
       });
     },
@@ -247,8 +249,14 @@ export const Player = (name = 'human') => {
   return Object.assign(Object.create(proto), props);
 };
 
-export const Game = (() => ({
-  players: [],
+export const Game = (numOfPlayers = 2) => ({
+  players: [Player('you'), Player('computer')],
   playStatus: true,
   currentPlayer: null,
-}))();
+  checkWinner() {
+    return this.players.find((player) => player.isWinner);
+  },
+  goToNextPlayer() {
+    this.players.forEach((player) => (player.isPlaying = !player.isPlaying));
+  },
+});
