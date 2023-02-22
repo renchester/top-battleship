@@ -63,13 +63,14 @@ export const Board = (gridLength = 10) => {
 
     getValidSquaresToPlaceShipOn(origin, ship) {
       const [row, col] = origin;
+
       const targetSquares = [];
 
       if (ship.orientation === 'vertical') {
         for (let i = 0; i < ship.length; i++) {
           const target = this.findSquareWithRowCol([+row + i, col]);
 
-          if (this.checkShipPlacementValidity(target)) {
+          if (target && !target.hasShip) {
             targetSquares.push(target);
           } else return false;
         }
@@ -79,7 +80,7 @@ export const Board = (gridLength = 10) => {
         for (let i = 0; i < ship.length; i++) {
           const target = this.findSquareWithRowCol([row, +col + i]);
 
-          if (this.checkShipPlacementValidity(target)) {
+          if (target && !target.hasShip) {
             targetSquares.push(target);
           } else return false;
         }
@@ -112,7 +113,6 @@ export const Board = (gridLength = 10) => {
       );
 
       const surroundingSquares = [];
-
       const surroundingValues = [-1, 0, 1];
 
       shipSquares.forEach((square) => {
@@ -172,9 +172,8 @@ export const Player = (name = 'human') => {
       if (!targetSquare.isHit) {
         playerToAttack.receiveAttack(coordinates);
 
-        if (playerToAttack.ships.every((ship) => ship.isSunk)) {
+        if (playerToAttack.ships.every((ship) => ship.isSunk))
           this.isWinner = true;
-        }
       }
 
       return true;
@@ -192,10 +191,16 @@ export const Player = (name = 'human') => {
 
         targetShip.getHit();
 
-        if (targetShip.isSunk) {
-          this.board.explodeShip(coordinates);
-        }
+        if (targetShip.isSunk) this.board.explodeShip(coordinates);
       }
+    },
+
+    getRandomNumber(limit) {
+      return Math.ceil(Math.random() * +limit);
+    },
+
+    getRandomCoordinates(dimension) {
+      return [this.getRandomNumber(dimension), this.getRandomNumber(dimension)];
     },
 
     generateAttack(playerToAttack) {
@@ -212,16 +217,10 @@ export const Player = (name = 'human') => {
       }
 
       if (!targetSquare || targetSquare.isHit) {
-        this.generateAttack(playerToAttack);
+        this.generateAttack(playerToAttack); // recursively generate a new attack
       }
-    },
 
-    getRandomNumber(limit) {
-      return Math.ceil(Math.random() * +limit);
-    },
-
-    getRandomCoordinates(dimension) {
-      return [this.getRandomNumber(dimension), this.getRandomNumber(dimension)];
+      return targetCoords;
     },
 
     generateShipPlacement(board, ship) {
@@ -240,7 +239,7 @@ export const Player = (name = 'human') => {
       }
     },
 
-    placeComputerShips() {
+    placeShipsOnGeneratedPlacements() {
       this.ships.map((ship) => this.generateShipPlacement(this.board, ship));
     },
   };
@@ -248,7 +247,13 @@ export const Player = (name = 'human') => {
   const props = {
     name,
     board: Board(10),
-    ships: [],
+    ships: [
+      Ship(5, 'carrier'),
+      Ship(4, 'battleship'),
+      Ship(3, 'destroyer'),
+      Ship(3, 'submarine'),
+      Ship(2, 'patroller'),
+    ],
     lastThreeMoves: [],
     isWinner: false,
     isPlaying: false,
@@ -257,8 +262,8 @@ export const Player = (name = 'human') => {
   return Object.assign(Object.create(proto), props);
 };
 
-export const Game = (numOfPlayers = 2) => ({
-  players: [Player('you'), Player('computer')],
+export const Game = () => ({
+  players: [Player('human player'), Player('computer')],
   playStatus: true,
   currentPlayer: null,
   checkWinner() {
