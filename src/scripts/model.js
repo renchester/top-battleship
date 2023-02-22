@@ -169,23 +169,31 @@ export const Player = (name = 'human') => {
 
       if (targetSquare.isHit) return false;
 
-      targetSquare.isHit = true;
+      if (!targetSquare.isHit) {
+        playerToAttack.receiveAttack(coordinates);
 
-      if (targetSquare.hasShip) {
-        const targetShip = playerToAttack.ships.find(
-          (ship) => ship.name === targetSquare.shipName,
+        if (playerToAttack.ships.every((ship) => ship.isSunk)) {
+          this.isWinner = true;
+        }
+      }
+
+      return true;
+    },
+
+    receiveAttack(coordinates) {
+      const attackedSquare = this.board.findSquareWithRowCol(coordinates);
+
+      attackedSquare.isHit = true;
+
+      if (attackedSquare.hasShip) {
+        const targetShip = this.ships.find(
+          (ship) => ship.name === attackedSquare.shipName,
         );
 
         targetShip.getHit();
 
         if (targetShip.isSunk) {
-          playerToAttack.board.explodeShip(coordinates);
-        }
-
-        if (playerToAttack.ships.every((ship) => ship.isSunk)) {
-          this.isWinner = true;
-
-          //  winner handler
+          this.board.explodeShip(coordinates);
         }
       }
     },
