@@ -3,7 +3,7 @@
 import { Player, Ship, Board } from '../model';
 
 describe('player', () => {
-  test.only('checks if computer can successfully place multiple ships inside board', () => {
+  test('checks if computer can successfully place multiple ships inside board', () => {
     const ai = Player('computer');
 
     ai.ships = [
@@ -62,19 +62,17 @@ describe('player', () => {
     expect(ai2ShipsOnBoard.length).toBe(6);
   });
 
-  test.skip('computer generates a random attack', () => {
+  test('computer generates a random attack', () => {
     const human = Player('you');
     const ai = Player('computer');
 
-    // const game = Game(human, ai);
-
     human.board = Board(3);
-    human.board.placeShip([2, 2], Ship(2));
+    human.ships = [Ship(2)];
+    human.board.placeShip([2, 2], human.ships[0]);
+    ai.generateAttack(human);
 
-    ai.generateAttack();
+    expect(human.board.state.find((square) => square.isHit)).toBeTruthy();
   });
-
-  test.skip('computer does not attack already hit squares', () => {});
 
   test.skip('computer follows natural patterns when attacking', () => {});
 
@@ -101,7 +99,7 @@ describe('player', () => {
 
     player1.attack(player2, [1, 1]);
 
-    expect(() => player1.attack(player2, [1, 1])).toThrow();
+    expect(player1.attack(player2, [1, 1])).toBeFalsy();
   });
 
   test('checks if square with ship loses hitPoints after receiving attack', () => {

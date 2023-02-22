@@ -1,5 +1,5 @@
 /* eslint-disable no-return-assign */
-/* eslint-disable no-param-reassign */
+
 const Square = (coordinates) => {
   const [row, column] = coordinates;
 
@@ -164,6 +164,9 @@ export const Player = (name = 'human') => {
     attack(playerToAttack, coordinates) {
       const targetSquare =
         playerToAttack.board.findSquareWithRowCol(coordinates);
+
+      if (targetSquare.isHit) return false;
+
       targetSquare.isHit = true;
 
       if (targetSquare.hasShip) {
@@ -185,11 +188,29 @@ export const Player = (name = 'human') => {
       }
     },
 
-    getRandomNumber(limit) {
-      return Math.floor(Math.random() * +limit);
+    generateAttack(playerToAttack) {
+      const targetCoords = this.getRandomCoordinates(
+        playerToAttack.board.dimension,
+      );
+
+      const targetSquare =
+        playerToAttack.board.findSquareWithRowCol(targetCoords);
+
+      if (!targetSquare.isHit) {
+        this.attack(playerToAttack, targetCoords);
+        return targetCoords;
+      }
+
+      if (!targetSquare || targetSquare.isHit) {
+        this.generateAttack(playerToAttack);
+      }
     },
 
-    getNewStartingPoint(dimension) {
+    getRandomNumber(limit) {
+      return Math.ceil(Math.random() * +limit);
+    },
+
+    getRandomCoordinates(dimension) {
       return [this.getRandomNumber(dimension), this.getRandomNumber(dimension)];
     },
 
@@ -197,7 +218,7 @@ export const Player = (name = 'human') => {
       ship.orientation =
         this.getRandomNumber(2) % 2 === 0 ? 'vertical' : 'horizontal';
 
-      const startingPoint = this.getNewStartingPoint(board.dimension);
+      const startingPoint = this.getRandomCoordinates(board.dimension);
 
       if (board.getValidSquaresToPlaceShipOn(startingPoint, ship)) {
         this.board.placeShip(startingPoint, ship);
