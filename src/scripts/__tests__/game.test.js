@@ -1,28 +1,36 @@
 /* eslint-disable no-undef */
 import { Board, Game, Ship } from '../model';
 
-test('determines winner when one player has all their ships sunken', () => {
-  const sampleGame = Game();
+describe('game', () => {
+  let sampleGame;
+  let player1;
+  let player2;
 
-  const [human, ai] = sampleGame.players;
-  human.board = Board(3);
-  human.ships = [Ship(1)];
-  human.board.placeShip([2, 2], human.ships[0]);
+  beforeEach(() => {
+    sampleGame = Game();
+    [player1, player2] = sampleGame.players;
+    player1.board = Board(3);
+    player1.ships = [Ship(1)];
 
-  ai.attack(human, [2, 2]);
+    player1.board.placeShip([2, 2], player1.ships[0]);
+  });
 
-  expect(sampleGame.checkWinner()).toBeTruthy();
+  test('determines winner when one player has all their ships sunken', () => {
+    player2.attack(player1, [2, 2]);
 
-  const sampleGame2 = Game();
+    expect(sampleGame.checkWinner()).toHaveProperty('isWinner', true);
+  });
 
-  const [human2, ai2] = sampleGame2.players;
-  human2.board = Board(4);
-  human2.ships = [Ship(3)];
-  human2.board.placeShip([2, 2], human2.ships[0]);
+  test('checks that winner is not yet defined by default', () => {
+    expect(sampleGame.checkWinner()).toBeFalsy();
+  });
 
-  ai2.attack(human2, [2, 2]);
-  ai2.attack(human2, [3, 2]);
-  ai2.attack(human2, [4, 2]);
+  test('checks if current player value is toggled', () => {
+    player1.isPlaying = true;
 
-  expect(sampleGame2.checkWinner()).toBeTruthy();
+    sampleGame.goToNextPlayer();
+
+    expect(player1.isPlaying).toBe(false);
+    expect(player2.isPlaying).toBe(true);
+  });
 });
