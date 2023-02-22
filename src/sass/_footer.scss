@@ -1,0 +1,25 @@
+@use 'mixins';
+@use 'base';
+
+.footer {
+  @extend %center-all-children;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  margin: 5px auto;
+  gap: 10px;
+  font-family: var(--font-open-sans);
+
+  & > *:visited,
+  & > *:link {
+    text-decoration: none;
+  }
+
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--text-xs);
+  }
+}
