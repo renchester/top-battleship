@@ -40,6 +40,7 @@ export const Ship = (length, name = 'ship') => {
 
 export const Board = (gridLength = 10) => {
   let size = gridLength ** 2;
+  let dimension = gridLength;
   let state = [];
 
   const proto = {
@@ -54,42 +55,53 @@ export const Board = (gridLength = 10) => {
       );
     },
 
-    placeShip(coordinates, ship) {
-      const [row, col] = coordinates;
-      const { length, orientation } = ship;
+    checkShipPlacementValidity(target) {
+      if (!target || target.hasShip) {
+        throw new Error('Cannot place ship on non-empty square');
+      } else return true;
+    },
 
+    getValidSquaresToPlaceShipOn(origin, ship) {
+      const [row, col] = origin;
       const targetSquares = [];
 
-      if (orientation === 'vertical') {
-        // column remains same
-
-        for (let i = 0; i < length; i++) {
+      if (ship.orientation === 'vertical') {
+        for (let i = 0; i < ship.length; i++) {
           const target = this.findSquareWithRowCol([+row + i, col]);
 
-          if (!target || target.hasShip) {
-            throw new Error('Cannot place ship on non-empty square');
-          }
-
-          targetSquares.push(target);
-        }
-      } else if (orientation === 'horizontal') {
-        // row remains same
-
-        for (let i = 0; i < length; i++) {
-          const target = this.findSquareWithRowCol([row, +col + i]);
-
-          if (!target || target.hasShip) {
-            throw new Error('Cannot place ship on non-empty square');
-          }
-
-          targetSquares.push(target);
+          if (this.checkShipPlacementValidity(target)) {
+            targetSquares.push(target);
+          } else return false;
         }
       }
+
+      if (ship.orientation === 'horizontal') {
+        for (let i = 0; i < ship.length; i++) {
+          const target = this.findSquareWithRowCol([row, +col + i]);
+
+          if (this.checkShipPlacementValidity(target)) {
+            targetSquares.push(target);
+          } else return false;
+        }
+      }
+
+      return targetSquares;
+    },
+
+    placeShip(coordinates, ship) {
+      const targetSquares = this.getValidSquaresToPlaceShipOn(
+        coordinates,
+        ship,
+      );
+
+      if (!targetSquares) return false;
 
       targetSquares.forEach((square) => {
         square.shipName = ship.name;
         square.hasShip = true;
       });
+
+      return true;
     },
 
     explodeShip(coordinates) {
@@ -166,8 +178,61 @@ export const Player = (name = 'human') => {
 
         if (playerToAttack.ships.every((ship) => ship.isSunk)) {
           this.isWinner = true;
+
+          //  winner handler
         }
       }
+    },
+
+    getRandomNumber(limit) {
+      return Math.floor(Math.random() * limit);
+    },
+
+    getNewStartingPoint(dimension) {
+      return [this.getRandomNumber(dimension), this.getRandomNumber(dimension)];
+    },
+
+    generateShipPlacements(board) {
+      this.ships.forEach((ship) => {
+        ship.orientation =
+          this.getRandomNumber(2) % 2 === 0 ? 'vertical' : 'horizontal';
+
+        const startingPoint = this.getNewStartingPoint(board.dimension);
+
+        const [row, col] = startingPoint;
+
+        // check for validity
+        const { length, orientation } = ship;
+
+        if (orientation === 'vertical') {
+          // column remains same
+
+          for (let i = 0; i < length; i++) {
+            const target = this.findSquareWithRowCol([+row + i, col]);
+
+            if (this.checkShipPlacementValidity(target)) {
+              targetSquares.push(target);
+            } else {
+              sta;
+            }
+          }
+        } else if (orientation === 'horizontal') {
+          // row remains same
+
+          for (let i = 0; i < length; i++) {
+            const target = this.findSquareWithRowCol([row, +col + i]);
+
+            if (this.checkShipPlacementValidity(target)) {
+              targetSquares.push(target);
+            }
+          }
+        }
+
+        targetSquares.forEach((square) => {
+          square.shipName = ship.name;
+          square.hasShip = true;
+        });
+      });
     },
   };
 
@@ -188,15 +253,3 @@ export const Game = (() => ({
   playStatus: true,
   currentPlayer: null,
 }))();
-
-// surroundingValues.forEach((val) => {
-//   surroundingSquares.push(
-//     this.findSquareWithRowCol([+square.row + val, +square.column]),
-//   );
-// });
-
-// surroundingValues.forEach((val) => {
-//   surroundingSquares.push(
-//     this.findSquareWithRowCol([+square.row, +square.column + val]),
-//   );
-// });
