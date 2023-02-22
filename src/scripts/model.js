@@ -1,3 +1,5 @@
+/* eslint-disable no-return-assign */
+/* eslint-disable no-param-reassign */
 const Square = (coordinates) => {
   const [row, column] = coordinates;
 
@@ -39,9 +41,9 @@ export const Ship = (length, name = 'ship') => {
 };
 
 export const Board = (gridLength = 10) => {
-  let size = gridLength ** 2;
-  let dimension = gridLength;
-  let state = [];
+  const size = gridLength ** 2;
+  const dimension = gridLength;
+  const state = [];
 
   const proto = {
     findSquareWithID(id) {
@@ -56,9 +58,7 @@ export const Board = (gridLength = 10) => {
     },
 
     checkShipPlacementValidity(target) {
-      if (!target || target.hasShip) {
-        throw new Error('Cannot place ship on non-empty square');
-      } else return true;
+      return !(!target || target.hasShip);
     },
 
     getValidSquaresToPlaceShipOn(origin, ship) {
@@ -94,7 +94,7 @@ export const Board = (gridLength = 10) => {
         ship,
       );
 
-      if (!targetSquares) return false;
+      if (!targetSquares || !targetSquares.length) return false;
 
       targetSquares.forEach((square) => {
         square.shipName = ship.name;
@@ -118,12 +118,12 @@ export const Board = (gridLength = 10) => {
       shipSquares.forEach((square) => {
         for (let i = 0; i < surroundingValues.length; i++) {
           for (let j = 0; j < surroundingValues.length; j++) {
-            surroundingSquares.push(
-              this.findSquareWithRowCol([
-                +square.row + surroundingValues[i],
-                +square.column + surroundingValues[j],
-              ]),
-            );
+            const targetSquare = this.findSquareWithRowCol([
+              +square.row + surroundingValues[i],
+              +square.column + surroundingValues[j],
+            ]);
+
+            surroundingSquares.push(targetSquare);
           }
         }
       });
@@ -155,6 +155,7 @@ export const Board = (gridLength = 10) => {
   return Object.assign(Object.create(proto), {
     size,
     state,
+    dimension,
   });
 };
 
@@ -166,7 +167,7 @@ export const Player = (name = 'human') => {
       targetSquare.isHit = true;
 
       if (targetSquare.hasShip) {
-        let targetShip = playerToAttack.ships.find(
+        const targetShip = playerToAttack.ships.find(
           (ship) => ship.name === targetSquare.shipName,
         );
 
@@ -185,54 +186,31 @@ export const Player = (name = 'human') => {
     },
 
     getRandomNumber(limit) {
-      return Math.floor(Math.random() * limit);
+      return Math.floor(Math.random() * +limit);
     },
 
     getNewStartingPoint(dimension) {
       return [this.getRandomNumber(dimension), this.getRandomNumber(dimension)];
     },
 
-    generateShipPlacements(board) {
-      this.ships.forEach((ship) => {
-        ship.orientation =
-          this.getRandomNumber(2) % 2 === 0 ? 'vertical' : 'horizontal';
+    generateShipPlacement(board, ship) {
+      ship.orientation =
+        this.getRandomNumber(2) % 2 === 0 ? 'vertical' : 'horizontal';
 
-        const startingPoint = this.getNewStartingPoint(board.dimension);
+      const startingPoint = this.getNewStartingPoint(board.dimension);
 
-        const [row, col] = startingPoint;
+      if (board.getValidSquaresToPlaceShipOn(startingPoint, ship)) {
+        this.board.placeShip(startingPoint, ship);
+        return;
+      }
 
-        // check for validity
-        const { length, orientation } = ship;
+      if (!board.getValidSquaresToPlaceShipOn(startingPoint, ship)) {
+        this.generateShipPlacement(board, ship);
+      }
+    },
 
-        if (orientation === 'vertical') {
-          // column remains same
-
-          for (let i = 0; i < length; i++) {
-            const target = this.findSquareWithRowCol([+row + i, col]);
-
-            if (this.checkShipPlacementValidity(target)) {
-              targetSquares.push(target);
-            } else {
-              sta;
-            }
-          }
-        } else if (orientation === 'horizontal') {
-          // row remains same
-
-          for (let i = 0; i < length; i++) {
-            const target = this.findSquareWithRowCol([row, +col + i]);
-
-            if (this.checkShipPlacementValidity(target)) {
-              targetSquares.push(target);
-            }
-          }
-        }
-
-        targetSquares.forEach((square) => {
-          square.shipName = ship.name;
-          square.hasShip = true;
-        });
-      });
+    placeComputerShips() {
+      this.ships.map((ship) => this.generateShipPlacement(this.board, ship));
     },
   };
 
