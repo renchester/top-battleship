@@ -83,7 +83,16 @@ body {
   --color-grey-light-2: #f2efee; // Light lines
   --color-grey-light-3: #d3c7c3; // Light text (placeholder)
   --color-grey-dark-1: #423c3a; // Normal text
-  --color-grey-dark-2: #918581; // Lighter text
+  --color-grey-dark-2: #636363; // Lighter text
+
+  --color-square-border: #3a3a3a;
+  --color-square-base: #f2f5ff;
+  --color-square-base-hover: #e9e392;
+  --color-square-sunken: #830f0f;
+  --color-square-damaged: #d44343;
+  --color-square-filled: #6d6d6d;
+  --color-square-place-origin: #838080;
+  --color-square-place-adjacent: #a0a0a0;
 
   /* FONT FAMILY VARIABLES */
 
@@ -110,8 +119,26 @@ body {
 }
 
 body.dark-mode {
-  --color-background: var(--color-background-dark, #3b3b3b);
+  --color-background: var(--color-background-dark, #353535);
   --color-text: var(--color-text-light, white);
 
   --color-primary: #0aa4af;
+
+  --color-square-border: #7c7c7c;
+  --color-square-base: #353535;
+  --color-square-place-origin: #5e5e5e;
+  --color-square-place-adjacent: #adadad;
+  --color-square-sunken: #a11515;
+  --color-square-damaged: #d83636;
+}
+
+body {
+  background: var(--color-background);
+  font-family: var(--font-open-sans);
+  color: var(--color-text);
+  height: 100vh;
+}
+
+.hidden {
+  display: none;
 }

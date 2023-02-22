@@ -1,0 +1,58 @@
+@use 'base';
+@use 'mixins';
+
+.board {
+  --board-dimension: 10;
+
+  display: grid;
+  grid-template-columns: repeat(var(--board-dimension), 1fr);
+  grid-template-rows: repeat(var(--board-dimension), 1fr);
+  width: fit-content;
+  gap: 5px;
+
+  padding: 40px;
+  &__ship-placement {
+  }
+}
+
+.square {
+  --square-dimension: 50px;
+
+  border: 1px solid var(--color-square-border);
+  width: var(--square-dimension);
+  height: var(--square-dimension);
+  border-radius: 3px;
+
+  &__placement-origin:hover,
+  &__placement-origin:active {
+    background-color: var(--color-square-place-origin);
+  }
+
+  &__placement-adjacent {
+    background-color: var(--color-square-place-adjacent);
+  }
+
+  &__filled {
+    background-color: var(--color-square-filled);
+  }
+
+  &__base {
+    background-color: var(--color-square-base);
+  }
+
+  &__base:hover {
+    background-color: var(--color-square-base-hover);
+  }
+
+  &__damaged {
+    background-color: var(--color-square-damaged);
+  }
+
+  &__damaged:hover {
+    cursor: not-allowed;
+  }
+
+  &__sunken {
+    background-color: var(--color-square-sunken);
+  }
+}
