@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import { Ship } from '../model';
+
+import Ship from '../model/ship';
 
 describe('ship', () => {
   test('decreases hit points when hit', () => {

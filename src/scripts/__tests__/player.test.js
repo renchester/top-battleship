@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 
-import { Player, Ship, Board } from '../model';
+import Player from '../model/player';
+import Ship from '../model/ship';
+import Board from '../model/board';
 
 describe('player', () => {
   let player1;
@@ -18,7 +20,7 @@ describe('player', () => {
       Ship(3, 'destroyer'),
     ];
 
-    player1.placeComputerShips();
+    player1.placeShipsOnGeneratedPlacements();
 
     // filter out board ship names
     const shipsOnBoard = [

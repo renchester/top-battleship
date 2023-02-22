@@ -1,5 +1,8 @@
 /* eslint-disable no-undef */
-import { Board, Game, Ship } from '../model';
+
+import Ship from '../model/ship';
+import Board from '../model/board';
+import Game from '../model/game';
 
 describe('game', () => {
   let sampleGame;
