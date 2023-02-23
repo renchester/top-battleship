@@ -79,7 +79,7 @@ body {
   --color-text: #423c3a;
   --color-text-light: #f2f5ff;
 
-  --color-grey-light-1: #f9f5f3; // Light background
+  --color-grey-light-1: #e9e9e9; // Light background
   --color-grey-light-2: #f2efee; // Light lines
   --color-grey-light-3: #d3c7c3; // Light text (placeholder)
   --color-grey-dark-1: #423c3a; // Normal text
@@ -100,6 +100,12 @@ body {
   --font-open-sans: 'Open Sans', Arial, Helvetica, sans-serif, monospace;
   --font-montserrat: 'Montserrat', 'Courier New', Arial, Helvetica, sans-serif,
     monospace;
+  --font-rammetto: 'Rammetto One', 'Montserrat', 'Courier New', Arial, Helvetica,
+    sans-serif, monospace;
+  --font-press-start: 'Press Start 2P', 'Montserrat', 'Courier New', Arial,
+    Helvetica, sans-serif, monospace;
+  --font-squada: 'Squada One', 'Montserrat', 'Courier New', Arial, Helvetica,
+    sans-serif, monospace;
 
   /* FONT SIZE VARIABLES */
 
@@ -137,8 +143,30 @@ body {
   font-family: var(--font-open-sans);
   color: var(--color-text);
   height: 100vh;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .hidden {
-  display: none;
+  display: none !important;
+}
+
+.header {
+  --header-logo-size: 3.5rem;
+  @extend %center-all-children;
+
+  position: relative;
+  padding: 40px 0;
+
+  &__logo {
+    display: inline-block;
+
+    font-family: var(--font-rammetto);
+    font-size: var(--header-logo-size);
+  }
+}
+
+.container {
+  height: 100%;
 }
