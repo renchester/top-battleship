@@ -18,6 +18,7 @@ const Ship = (length, name = 'ship') => {
     length,
     hitPoints: length,
     orientation: 'vertical',
+    isOnBoard: false,
     isSunk: false,
   };
 
