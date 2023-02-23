@@ -3,7 +3,6 @@ const View = (() => {
 
   const startScreen = document.querySelector('.screen__start');
   const placeShipScreen = document.querySelector('.screen__ship-placement');
-  const gameDisplayScreen = document.querySelector('.screen__game-display');
 
   const btnStart = document.querySelector('.btn__start');
   const inputNameEl = document.querySelector('.input__player-name');
@@ -54,6 +53,8 @@ const View = (() => {
   };
 
   return {
+    hideEl,
+    unhideEl,
     addHandlerToggleTheme,
     setPageTheme,
     addHandlerStartGame,
