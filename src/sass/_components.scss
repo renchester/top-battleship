@@ -1,7 +1,7 @@
 @use 'base';
 
 .btn {
-  --color-btn-background: #f1f1f1;
+  --color-btn-background: #eeeeee;
 
   font-family: var(--font-press-start);
   color: var(--color-grey-dark-1);
@@ -12,18 +12,17 @@
   padding: 20px 30px;
   border-radius: 50px;
   background-color: var(--color-btn-background);
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 0.0625em 0.0625em,
-    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
-    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+  box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset,
+    var(--color-primary) 0px 0px 0px 2px;
 
   &:active {
     outline: 3px solid var(--color-accent);
-    outline-offset: 4px;
+    outline-offset: 6px;
   }
 
   &:hover {
     background-color: var(--color-accent);
-    color: var(--color-text);
+    color: var(--color-grey-light-1);
   }
 }
 

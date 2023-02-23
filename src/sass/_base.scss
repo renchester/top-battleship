@@ -65,11 +65,10 @@ table {
 body {
   /* COLOR VARIABLES */
 
-  --color-primary: #0c6d74;
-  --color-secondary: #9dedf3;
-  --color-accent: #9bc4bc;
+  --color-primary: #2f3297;
+  --color-accent: #3f44de;
 
-  --color-background: #f2f5ff;
+  --color-background: #fffef9;
   --color-background-dark: #353535;
   --color-light-1: #fff9f9;
   --color-light-2: #f0f0f0;
@@ -128,7 +127,8 @@ body.dark-mode {
   --color-background: var(--color-background-dark, #353535);
   --color-text: var(--color-text-light, white);
 
-  --color-primary: #0aa4af;
+  --color-primary: #b14aed;
+  --color-accent: #9640c7;
 
   --color-square-border: #7c7c7c;
   --color-square-base: #353535;
@@ -164,6 +164,10 @@ body {
 
     font-family: var(--font-rammetto);
     font-size: var(--header-logo-size);
+
+    &:hover {
+      color: var(--color-primary);
+    }
   }
 }
 

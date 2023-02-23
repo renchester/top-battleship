@@ -1,21 +1,19 @@
 @use 'base';
 
 .screen {
-  --margin-top-bottom: 0px;
+  --margin-top-bottom: 50px;
   --margin-left-right: 20px;
 
+  align-items: center;
   position: relative;
   display: flex;
+
   flex-direction: column;
   margin: var(--margin-top-bottom) var(--margin-left-right);
   height: 100%;
 
   &__start {
-    align-items: center;
-    justify-content: center;
     gap: 50px;
-
-    transform: translateY(-12%);
     font-family: var(--font-squada);
     text-align: center;
 
@@ -70,6 +68,72 @@
         width: 100%;
         font-size: var(--text-xxs);
       }
+    }
+  }
+
+  &__game-display {
+    & .game-display__board-wrapper {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      width: clamp(500px, 100%, 1200px);
+
+      & .overlay__winner-display {
+        position: absolute;
+        background-color: rgba(253, 153, 23, 0.85); //put in base as variable
+        height: 100%;
+        width: 100%;
+        border-radius: 15px;
+        z-index: 10;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 25px;
+
+        padding: 40px;
+
+        & .btn.btn__close-overlay {
+          position: absolute;
+          right: 0;
+          top: 0;
+          background: none;
+          box-shadow: none;
+          margin: 20px;
+          padding: 10px;
+          font-size: var(--text-lg);
+          color: var(--text-color);
+
+          &:hover {
+            color: var(--color-accent);
+          }
+
+          &:active {
+            outline: none;
+          }
+        }
+
+        & .message {
+          font-family: var(--font-press-start);
+        }
+
+        & .message__winner-main {
+          font-size: var(--text-xxl);
+        }
+
+        & .btn__start-again {
+          margin-top: 50px;
+        }
+      }
+    }
+
+    .btn__reset {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 50px;
     }
   }
 }
