@@ -1,6 +1,21 @@
 const View = (() => {
   const themeSwitcher = document.querySelector('#themeSwitch');
 
+  const startScreen = document.querySelector('.screen__start');
+  const placeShipScreen = document.querySelector('.screen__ship-placement');
+  const gameDisplayScreen = document.querySelector('.screen__game-display');
+
+  const btnStart = document.querySelector('.btn__start');
+  const inputNameEl = document.querySelector('.input__player-name');
+
+  const hideEl = (el) => {
+    el.classList.add('hidden');
+  };
+
+  const unhideEl = (el) => {
+    el.classList.remove('hidden');
+  };
+
   const addHandlerToggleTheme = () => {
     themeSwitcher.addEventListener('change', (e) => {
       if (e.target.checked) {
@@ -25,9 +40,23 @@ const View = (() => {
     }
   };
 
+  const addHandlerStartGame = (handler) => {
+    btnStart.addEventListener('click', (e) => {
+      e.preventDefault();
+
+      if (!inputNameEl.value) return;
+
+      hideEl(startScreen);
+      unhideEl(placeShipScreen);
+
+      handler(inputNameEl.value);
+    });
+  };
+
   return {
     addHandlerToggleTheme,
     setPageTheme,
+    addHandlerStartGame,
   };
 })();
 
