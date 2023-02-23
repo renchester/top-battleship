@@ -27,6 +27,29 @@ const controlAdjacentSquares = (origin, ship) => {
   return adjacentSquares.map((square) => square.id);
 };
 
+const controlAttackEnemy = (coordinates) => {
+  if (!humanPlayer.attack(computerPlayer, coordinates)) return;
+
+  humanPlayer.attack(computerPlayer, coordinates);
+
+  if (game.checkWinner()) {
+    gameView.displayWinner(humanPlayer);
+    return;
+  }
+
+  computerPlayer.generateAttack(humanPlayer);
+
+  if (game.checkWinner()) {
+    gameView.displayWinner(computerPlayer);
+    return;
+  }
+
+  gameView.renderBoard(humanPlayer);
+  gameView.renderBoard(computerPlayer);
+
+  gameView.addHandlerAttackEnemy(controlAttackEnemy);
+};
+
 const controlPlaceShip = (coordinates, ship) => {
   if (!humanPlayer.board.placeShip(coordinates, ship)) return;
 
@@ -44,6 +67,7 @@ const controlPlaceShip = (coordinates, ship) => {
     computerPlayer.placeShipsOnGeneratedPlacements();
 
     gameView.displayScreen(game);
+    gameView.addHandlerAttackEnemy(controlAttackEnemy);
   }
 };
 
@@ -57,6 +81,7 @@ const controlStartGame = (name) => {
   // Initialize game
   game = Game(name);
   [humanPlayer, computerPlayer] = game.players;
+  computerPlayer.isComputer = true;
 
   [currentShip] = humanPlayer.ships;
 
