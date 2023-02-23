@@ -1,8 +1,10 @@
 import styles from '../sass/main.scss';
 
 import Game from './model/game';
-import placeShipView from './views/placeShipView';
+
 import View from './views/view';
+import placeShipView from './views/placeShipView';
+import gameView from './views/gameView';
 
 let game;
 let humanPlayer;
@@ -26,6 +28,8 @@ const controlAdjacentSquares = (origin, ship) => {
 };
 
 const controlPlaceShip = (coordinates, ship) => {
+  if (!humanPlayer.board.placeShip(coordinates, ship)) return;
+
   humanPlayer.board.placeShip(coordinates, ship);
   placeShipView.renderBoard(humanPlayer.board.state);
   currentShip.isOnBoard = true;
@@ -39,9 +43,7 @@ const controlPlaceShip = (coordinates, ship) => {
   if (!currentShip) {
     computerPlayer.placeShipsOnGeneratedPlacements();
 
-    console.log('done');
-
-    gameView.renderBoard(game);
+    gameView.displayScreen(game);
   }
 };
 
@@ -73,3 +75,9 @@ init();
 
 //  const [carrier, battleship, destroyer, submarine, patroller] =
 //  humanPlayer.ships;
+
+//  console.log(
+//    computerPlayer.board.state
+//      .filter((el) => el.hasShip)
+//      .map((el) => el.coordinates),
+//  );
