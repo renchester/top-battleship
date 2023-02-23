@@ -29,7 +29,7 @@
 
 .switch {
   --switch-width: 64px;
-  --switch-height: 32px;
+  --switch-height: calc(var(--switch-width) / 2);
   --switch-padding: 3px;
 
   --switch-animation-duration: 0.2s;
@@ -37,12 +37,14 @@
   display: flex;
   align-items: center;
   position: absolute;
-  top: 36%;
-  right: 30px;
+  top: 10%;
+  right: 10px;
   width: var(--switch-width, 64px);
   height: var(--switch-height, 32px);
   border-radius: 50em;
   padding: var(--switch-padding, 0);
+
+  transform: scale(0.8);
 
   &__input,
   &__Label {

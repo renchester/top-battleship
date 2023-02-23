@@ -4,13 +4,13 @@
   --margin-top-bottom: 0px;
   --margin-left-right: 20px;
 
+  position: relative;
   display: flex;
   flex-direction: column;
   margin: var(--margin-top-bottom) var(--margin-left-right);
   height: 100%;
 
   &__start {
-    position: relative;
     align-items: center;
     justify-content: center;
     gap: 50px;
@@ -47,6 +47,28 @@
         // outline-offset: 5px;
         box-shadow: 0px 0px 15px 0px var(--color-primary);
         outline: none;
+      }
+    }
+  }
+
+  &__ship-placement {
+    align-items: center;
+
+    & .message__ship-placement {
+      margin-bottom: 20px;
+      font-size: var(--text-sm);
+      font-family: var(--font-press-start);
+    }
+
+    & .btn-container__ship-placement {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+
+      & * {
+        width: 100%;
+        font-size: var(--text-xxs);
       }
     }
   }

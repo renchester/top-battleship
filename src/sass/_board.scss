@@ -3,32 +3,88 @@
 
 .board {
   --board-dimension: 10;
+  --board-gap: 1px;
+  --board-padding: 22px;
 
   display: grid;
   grid-template-columns: repeat(var(--board-dimension), 1fr);
   grid-template-rows: repeat(var(--board-dimension), 1fr);
   width: fit-content;
-  gap: 5px;
+  gap: var(--board-gap);
+  background-color: var(--color-primary);
 
-  padding: 40px;
+  border-radius: 15px;
+  padding: var(--board-padding);
+
   &__ship-placement {
+    position: relative;
+
+    & .ships__display {
+      --ship-icon-size: 15px;
+
+      @extend %absolute-element__center-self;
+      left: calc(100% + 100px);
+
+      display: flex;
+      flex-direction: column;
+      gap: 50px;
+
+      & .ship__wrapper {
+        display: flex;
+        flex-direction: column;
+      }
+
+      & .ship__label {
+        font-family: var(--font-press-start);
+        font-size: var(--text-xs);
+        text-align: left;
+      }
+
+      & .ship__icon-wrapper {
+        display: flex;
+        gap: 3px;
+        margin-top: 4px;
+      }
+
+      & .ship__icon-square {
+        position: relative;
+        width: var(--ship-icon-size);
+        height: var(--ship-icon-size);
+        border-radius: 2px;
+        border: 1.5px solid var(--color-text);
+
+        &::after {
+          // @extend %absolute-element__center-self;
+
+          content: 'x';
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-60%, -60%);
+          font-size: var(--text-xs);
+        }
+      }
+    }
   }
 }
 
 .square {
-  --square-dimension: 50px;
+  --square-dimension: 45px;
 
   border: 1px solid var(--color-square-border);
   width: var(--square-dimension);
   height: var(--square-dimension);
   border-radius: 3px;
 
+  background-color: var(--color-background);
+
   &__placement-origin:hover,
   &__placement-origin:active {
     background-color: var(--color-square-place-origin);
   }
 
-  &__placement-adjacent {
+  &__placement-adjacent:hover,
+  &__placement-adjacent:active {
     background-color: var(--color-square-place-adjacent);
   }
 
