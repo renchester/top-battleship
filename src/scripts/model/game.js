@@ -1,8 +1,8 @@
 /* eslint-disable no-return-assign */
 import Player from './player';
 
-const Game = () => ({
-  players: [Player('human player'), Player('computer')],
+const Game = (name) => ({
+  players: [Player(name), Player('computer')],
   playStatus: true,
   currentPlayer: null,
   checkWinner() {
