@@ -29,11 +29,19 @@
 
       display: flex;
       flex-direction: column;
-      gap: 50px;
+      gap: 30px;
 
       & .ship__wrapper {
         display: flex;
         flex-direction: column;
+        padding: 20px;
+        border-radius: 12px;
+        cursor: default;
+      }
+
+      & .ship__wrapper-active {
+        background-color: var(--color-primary);
+        color: var(--color-grey-light-1);
       }
 
       & .ship__label {
@@ -53,7 +61,7 @@
         width: var(--ship-icon-size);
         height: var(--ship-icon-size);
         border-radius: 2px;
-        border: 1.5px solid var(--color-text);
+        border: 1.5px solid currentColor;
 
         &::after {
           // @extend %absolute-element__center-self;
@@ -100,8 +108,7 @@
     background-color: var(--color-square-place-origin);
   }
 
-  &__placement-adjacent:hover,
-  &__placement-adjacent:active {
+  &__placement-adjacent {
     background-color: var(--color-square-place-adjacent);
   }
 
@@ -123,6 +130,10 @@
 
   &__damaged:hover {
     cursor: not-allowed;
+  }
+
+  &__has-ship {
+    background-color: var(--color-square-has-ship);
   }
 
   &__sunken {

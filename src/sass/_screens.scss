@@ -119,6 +119,13 @@
 
         & .message__winner-main {
           font-size: var(--text-xxl);
+          text-align: center;
+        }
+
+        & .message__winner-sub {
+          text-align: center;
+          line-height: 2ch;
+          margin: 0 10%;
         }
 
         & .btn__start-again {

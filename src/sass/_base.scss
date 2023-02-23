@@ -88,9 +88,10 @@ body {
   --color-square-base: #f2f5ff;
   --color-square-base-hover: #e9e392;
   --color-square-sunken: #830f0f;
-  --color-square-damaged: #d44343;
+  --color-square-has-ship: #be1c1c;
+  --color-square-damaged: #dfa427;
   --color-square-filled: #6d6d6d;
-  --color-square-place-origin: #838080;
+  --color-square-place-origin: #797878;
   --color-square-place-adjacent: #a0a0a0;
 
   /* FONT FAMILY VARIABLES */
@@ -132,10 +133,8 @@ body.dark-mode {
 
   --color-square-border: #7c7c7c;
   --color-square-base: #353535;
-  --color-square-place-origin: #5e5e5e;
+  --color-square-place-origin: #7c7c7c;
   --color-square-place-adjacent: #adadad;
-  --color-square-sunken: #a11515;
-  --color-square-damaged: #d83636;
 }
 
 body {
