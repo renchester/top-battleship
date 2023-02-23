@@ -22,6 +22,8 @@ const Player = (name = 'human') => {
     receiveAttack(coordinates) {
       const attackedSquare = this.board.findSquareWithRowCol(coordinates);
 
+      if (attackedSquare.isHit) return;
+
       attackedSquare.isHit = true;
 
       if (attackedSquare.hasShip) {
@@ -31,7 +33,15 @@ const Player = (name = 'human') => {
 
         targetShip.getHit();
 
-        if (targetShip.isSunk) this.board.explodeShip(coordinates);
+        if (targetShip.isSunk) {
+          const explodedSquares = this.board.getExplodedSquares(coordinates);
+
+          explodedSquares.forEach((square) => {
+            if (!square) return;
+            this.receiveAttack(square.coordinates);
+            square.isHit = true;
+          });
+        }
       }
     },
 
@@ -65,7 +75,7 @@ const Player = (name = 'human') => {
 
     generateShipPlacement(board, ship) {
       ship.orientation =
-        this.getRandomNumber(2) % 2 === 0 ? 'vertical' : 'horizontal';
+        this.getRandomNumber(10) % 2 === 0 ? 'vertical' : 'horizontal';
 
       const startingPoint = this.getRandomCoordinates(board.dimension);
 
@@ -97,6 +107,7 @@ const Player = (name = 'human') => {
     lastThreeMoves: [],
     isWinner: false,
     isPlaying: false,
+    isComputer: false,
   };
 
   return Object.assign(Object.create(proto), props);

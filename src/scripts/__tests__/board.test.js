@@ -72,33 +72,4 @@ describe('board', () => {
       sampleBoard.state[4],
     );
   });
-
-  test('hits all surrounding squares around ship when it is sunk', () => {
-    sampleBoard.placeShip([2, 2], Ship(1));
-    sampleBoard.explodeShip([2, 2]);
-    expect(sampleBoard.state.every((square) => square.isHit)).toBe(true);
-  });
-
-  test('explodes squares around multiple ships', () => {
-    sampleBoard = Board(10);
-    sampleBoard.placeShip([1, 1], Ship(5, 'carrier'));
-    sampleBoard.placeShip([5, 5], Ship(2, 'patroller'));
-
-    sampleBoard.explodeShip([1, 1]);
-    sampleBoard.explodeShip([5, 5]);
-
-    expect(sampleBoard.state.filter((square) => square.isHit).length).toEqual(
-      24,
-    );
-  });
-
-  test('exploding works even on overlapping squares', () => {
-    sampleBoard.placeShip([2, 1], Ship(1, 'bomb1'));
-    sampleBoard.placeShip([2, 3], Ship(1, 'bomb2'));
-
-    sampleBoard.explodeShip([2, 1]);
-    sampleBoard.explodeShip([2, 3]);
-
-    expect(sampleBoard.state.every((square) => square.isHit)).toBe(true);
-  });
 });

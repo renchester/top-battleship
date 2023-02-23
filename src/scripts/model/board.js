@@ -79,7 +79,7 @@ const Board = (gridLength = 10) => {
       return true;
     },
 
-    explodeShip(coordinates) {
+    getExplodedSquares(coordinates) {
       const shipToExplode = this.findSquareWithRowCol(coordinates).shipName;
 
       const shipSquares = state.filter(
@@ -102,11 +102,7 @@ const Board = (gridLength = 10) => {
         }
       });
 
-      surroundingSquares.forEach((square) => {
-        if (!square) return;
-
-        square.isHit = true;
-      });
+      return surroundingSquares;
     },
   };
 
