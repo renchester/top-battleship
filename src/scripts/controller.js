@@ -68,6 +68,7 @@ const controlPlaceShip = (coordinates, ship) => {
 
     gameView.displayScreen(game);
     gameView.addHandlerAttackEnemy(controlAttackEnemy);
+    gameView.addHandlerNewGame(controlStartGame, humanPlayer.name);
   }
 };
 

@@ -8,6 +8,9 @@ const gameView = (() => {
   const computerBoardEl = document.querySelector('.board__opponent');
   const winnerOverlay = document.querySelector('.overlay__winner-display');
 
+  const btnReset = document.querySelector('.btn__reset');
+  const btnCloseOverlay = document.querySelector('.btn__close-overlay');
+
   const generateBoardMarkup = (square) => `
     <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
     square.isHit && square.hasShip ? 'square__has-ship' : ''
@@ -51,8 +54,18 @@ const gameView = (() => {
     );
   };
 
+  const addHandlerNewGame = (handler, name) => {
+    btnReset.addEventListener('click', (e) => {
+      View.hideEl(gameDisplayScreen);
+      View.unhideEl(placeShipScreen);
+
+      handler(name);
+    });
+  };
+
   const displayWinner = (player) => {
     View.unhideEl(winnerOverlay);
+    btnReset.textContent = 'Start New Game';
 
     winnerOverlay.querySelector(
       '.message__winner-main',
@@ -62,9 +75,19 @@ const gameView = (() => {
         ? 'Too bad! Now your domain has been overrun by the enemy!'
         : 'Congratulations! You have beat out the enemy. Your domain is in good hands.'
     }`;
+
+    btnCloseOverlay.addEventListener('click', () => {
+      View.hideEl(winnerOverlay);
+    });
   };
 
-  return { displayScreen, renderBoard, addHandlerAttackEnemy, displayWinner };
+  return {
+    displayScreen,
+    renderBoard,
+    addHandlerAttackEnemy,
+    addHandlerNewGame,
+    displayWinner,
+  };
 })();
 
 export default gameView;
