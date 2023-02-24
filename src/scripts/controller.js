@@ -32,14 +32,16 @@ const controlAttackEnemy = (coordinates) => {
 
   humanPlayer.attack(computerPlayer, coordinates);
   gameView.renderBoard(computerPlayer);
+  gameView.updateLogs(humanPlayer, coordinates);
 
   if (game.checkWinner()) {
     gameView.displayWinner(humanPlayer);
     return;
   }
 
-  computerPlayer.generateAttack(humanPlayer);
+  const genCoordinates = computerPlayer.generateAttack(humanPlayer);
   gameView.renderBoard(humanPlayer);
+  gameView.updateLogs(computerPlayer, genCoordinates);
 
   if (game.checkWinner()) {
     gameView.displayWinner(computerPlayer);

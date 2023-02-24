@@ -9,6 +9,8 @@ const gameView = (() => {
   const winnerOverlay = document.querySelector('.overlay__winner-display');
 
   const btnReset = document.querySelector('.btn__reset');
+  const logEl = document.querySelector('.battle-log');
+  const logEntriesEl = document.querySelector('.battle-log__entry-wrapper');
 
   const generateBoardMarkup = (square) => `
     <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
@@ -16,6 +18,18 @@ const gameView = (() => {
   }" data-row="${square.row}" data-column="${square.column}" data-id="${
     square.id
   }"></div>`;
+
+  const updateLogs = (player, coordinates) => {
+    logEntriesEl.insertAdjacentHTML(
+      'afterbegin',
+      ` <div class="battle-log__entry">
+            ${player.name.toUpperCase()} placed attack on [${coordinates[0]}, ${
+        coordinates[1]
+      }]
+        </div>
+    `,
+    );
+  };
 
   const renderBoard = (player) => {
     const boardEl = player.isComputer ? computerBoardEl : humanBoardEl;
@@ -33,6 +47,7 @@ const gameView = (() => {
   const displayScreen = (game) => {
     View.hideEl(placeShipScreen);
     View.unhideEl(gameDisplayScreen);
+    View.unhideEl(logEl);
     btnReset.textContent = 'Reset Game';
 
     const { players } = game;
@@ -84,6 +99,7 @@ const gameView = (() => {
     addHandlerAttackEnemy,
     addHandlerNewGame,
     displayWinner,
+    updateLogs,
   };
 })();
 
