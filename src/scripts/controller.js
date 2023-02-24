@@ -31,6 +31,7 @@ const controlAttackEnemy = (coordinates) => {
   if (!humanPlayer.attack(computerPlayer, coordinates)) return;
 
   humanPlayer.attack(computerPlayer, coordinates);
+  gameView.renderBoard(computerPlayer);
 
   if (game.checkWinner()) {
     gameView.displayWinner(humanPlayer);
@@ -38,14 +39,12 @@ const controlAttackEnemy = (coordinates) => {
   }
 
   computerPlayer.generateAttack(humanPlayer);
+  gameView.renderBoard(humanPlayer);
 
   if (game.checkWinner()) {
     gameView.displayWinner(computerPlayer);
     return;
   }
-
-  gameView.renderBoard(humanPlayer);
-  gameView.renderBoard(computerPlayer);
 
   gameView.addHandlerAttackEnemy(controlAttackEnemy);
 };
@@ -98,12 +97,3 @@ const init = () => {
 };
 
 init();
-
-//  const [carrier, battleship, destroyer, submarine, patroller] =
-//  humanPlayer.ships;
-
-//  console.log(
-//    computerPlayer.board.state
-//      .filter((el) => el.hasShip)
-//      .map((el) => el.coordinates),
-//  );
