@@ -106,52 +106,18 @@
         </div>
         <div class="btn-container__ship-placement">
           <button type="button" class="btn btn__rotate-ship">
-            Rotate Ship
-          </button>
-          <button type="button" class="btn btn__randomize-ships">
-            Randomize Ships
+            <div class="btn__rotate-label">Rotate Ship</div>
+            <div class="key-shortcut">SPACE</div>
           </button>
         </div>
       </div>
 
       <div class="screen screen__game-display hidden">
         <div class="game-display__board-wrapper">
-          <div class="board board__self">
-            <!-- <div
-              class="square square__empty"
-              data-row=""
-              data-column=""
-              data-id=""
-            ></div>
-            <div
-              class="square square__damaged"
-              data-row=""
-              data-column=""
-              data-id=""
-            ></div>
-            <div
-              class="square square__damaged square__has-ship"
-              data-row=""
-              data-column=""
-              data-id=""
-            ></div>
-            <div
-              class="square square__damaged square__has-ship square__sunken"
-              data-row=""
-              data-column=""
-              data-id=""
-            ></div>
-            <div
-              class="square square__damaged square__has-ship square__exploded"
-              data-row=""
-              data-column=""
-              data-id=""
-            ></div> -->
-          </div>
+          <div class="board board__self"></div>
           <div class="board board__opponent"></div>
           <button class="btn btn__reset">Reset game</button>
           <div class="overlay overlay__winner-display hidden">
-            <button class="btn btn__close-overlay winner-display">X</button>
             <span class="message message__winner-main">The winner is YES!</span>
             <span class="message message__winner-sub"
               >Congratulations! You have defeated the might</span
