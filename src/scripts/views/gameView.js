@@ -9,7 +9,6 @@ const gameView = (() => {
   const winnerOverlay = document.querySelector('.overlay__winner-display');
 
   const btnReset = document.querySelector('.btn__reset');
-  const btnCloseOverlay = document.querySelector('.btn__close-overlay');
 
   const generateBoardMarkup = (square) => `
     <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
@@ -34,6 +33,7 @@ const gameView = (() => {
   const displayScreen = (game) => {
     View.hideEl(placeShipScreen);
     View.unhideEl(gameDisplayScreen);
+    btnReset.textContent = 'Reset Game';
 
     const { players } = game;
     const [human, computer] = players;
@@ -57,6 +57,7 @@ const gameView = (() => {
   const addHandlerNewGame = (handler, name) => {
     btnReset.addEventListener('click', (e) => {
       View.hideEl(gameDisplayScreen);
+      View.hideEl(winnerOverlay);
       View.unhideEl(placeShipScreen);
 
       handler(name);
@@ -75,10 +76,6 @@ const gameView = (() => {
         ? 'Too bad! Now your domain has been overrun by the enemy!'
         : 'Congratulations! You have beat out the enemy. Your domain is in good hands.'
     }`;
-
-    btnCloseOverlay.addEventListener('click', () => {
-      View.hideEl(winnerOverlay);
-    });
   };
 
   return {
