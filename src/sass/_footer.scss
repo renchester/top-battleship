@@ -6,9 +6,11 @@
   width: 100%;
   position: fixed;
   bottom: 0;
-  margin: 5px auto;
+  padding: 20px auto;
   gap: 10px;
+  background-color: var(--color-background);
   font-family: var(--font-raleway);
+  z-index: 1;
 
   & > *:visited,
   & > *:link {
@@ -21,5 +23,11 @@
     align-items: center;
     gap: 10px;
     font-size: var(--text-xs);
+  }
+
+  @media screen and (max-height: 900px) {
+    & {
+      position: relative;
+    }
   }
 }

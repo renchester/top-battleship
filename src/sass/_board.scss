@@ -58,6 +58,7 @@
 
   &__filled {
     background-color: var(--color-square-filled);
+    cursor: not-allowed;
   }
 
   &__base {
