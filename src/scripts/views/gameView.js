@@ -24,6 +24,12 @@ const gameView = (() => {
     );
   };
 
+  const resetLogs = () => {
+    logEntriesEl.innerHTML = `<div class="battle-log__entry">
+              The battle has begun. Start attacking the enemy waters
+            </div>`;
+  };
+
   const generateBoardMarkup = (square) => `
     <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
     square.isHit && square.hasShip ? 'square__has-ship' : ''
@@ -48,6 +54,7 @@ const gameView = (() => {
     View.hideEl(placeShipScreen);
     View.unhideEl(gameDisplayScreen);
     View.unhideEl(logEl);
+    resetLogs();
 
     btnReset.textContent = 'Reset Game';
 
