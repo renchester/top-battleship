@@ -59,6 +59,12 @@ const placeShipView = (() => {
     btnRotate.addEventListener('click', () => {
       handler(ship);
     });
+
+    window.addEventListener('keydown', (e) => {
+      if (!e.key === 'spacebar') return;
+
+      handler(ship);
+    });
   };
 
   const addHandlerPlaceShip = (ship, handler) => {
