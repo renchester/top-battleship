@@ -12,13 +12,6 @@ const gameView = (() => {
   const logEl = document.querySelector('.battle-log');
   const logEntriesEl = document.querySelector('.battle-log__entry-wrapper');
 
-  const generateBoardMarkup = (square) => `
-    <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
-    square.isHit && square.hasShip ? 'square__has-ship' : ''
-  }" data-row="${square.row}" data-column="${square.column}" data-id="${
-    square.id
-  }"></div>`;
-
   const updateLogs = (player, coordinates) => {
     logEntriesEl.insertAdjacentHTML(
       'afterbegin',
@@ -30,6 +23,13 @@ const gameView = (() => {
     `,
     );
   };
+
+  const generateBoardMarkup = (square) => `
+    <div class="square square__${square.isHit ? 'damaged' : 'base'} ${
+    square.isHit && square.hasShip ? 'square__has-ship' : ''
+  }" data-row="${square.row}" data-column="${square.column}" data-id="${
+    square.id
+  }"></div>`;
 
   const renderBoard = (player) => {
     const boardEl = player.isComputer ? computerBoardEl : humanBoardEl;
@@ -48,6 +48,7 @@ const gameView = (() => {
     View.hideEl(placeShipScreen);
     View.unhideEl(gameDisplayScreen);
     View.unhideEl(logEl);
+
     btnReset.textContent = 'Reset Game';
 
     const { players } = game;
@@ -70,7 +71,7 @@ const gameView = (() => {
   };
 
   const addHandlerNewGame = (handler, name) => {
-    btnReset.addEventListener('click', (e) => {
+    btnReset.addEventListener('click', () => {
       View.hideEl(gameDisplayScreen);
       View.hideEl(winnerOverlay);
       View.unhideEl(placeShipScreen);
@@ -86,6 +87,7 @@ const gameView = (() => {
     winnerOverlay.querySelector(
       '.message__winner-main',
     ).textContent = `The winner is ${player.name}!`;
+
     winnerOverlay.querySelector('.message__winner-sub').textContent = `${
       player.isComputer
         ? 'Too bad! Now your domain has been overrun by the enemy!'

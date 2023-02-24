@@ -1,3 +1,5 @@
+/* eslint-disable no-use-before-define */
+// eslint-disable-next-line no-unused-vars
 import styles from '../sass/main.scss';
 
 import Game from './model/game';
@@ -27,6 +29,14 @@ const controlAdjacentSquares = (origin, ship) => {
   return adjacentSquares.map((square) => square.id);
 };
 
+const controlAttackHuman = () => {
+  const genCoordinates = computerPlayer.generateAttack(humanPlayer);
+  gameView.renderBoard(humanPlayer);
+  gameView.updateLogs(computerPlayer, genCoordinates);
+
+  if (game.checkWinner()) gameView.displayWinner(computerPlayer);
+};
+
 const controlAttackEnemy = (coordinates) => {
   if (!humanPlayer.attack(computerPlayer, coordinates)) return;
 
@@ -39,15 +49,7 @@ const controlAttackEnemy = (coordinates) => {
     return;
   }
 
-  const genCoordinates = computerPlayer.generateAttack(humanPlayer);
-  gameView.renderBoard(humanPlayer);
-  gameView.updateLogs(computerPlayer, genCoordinates);
-
-  if (game.checkWinner()) {
-    gameView.displayWinner(computerPlayer);
-    return;
-  }
-
+  controlAttackHuman();
   gameView.addHandlerAttackEnemy(controlAttackEnemy);
 };
 
@@ -58,13 +60,12 @@ const controlPlaceShip = (coordinates, ship) => {
   placeShipView.renderBoard(humanPlayer.board.state);
   currentShip.isOnBoard = true;
 
+  // Move to next ship not on board
   currentShip = humanPlayer.ships.find((targetShip) => !targetShip.isOnBoard);
 
   if (currentShip) {
     controlShipPlacement(currentShip);
-  }
-
-  if (!currentShip) {
+  } else if (!currentShip) {
     computerPlayer.placeShipsOnGeneratedPlacements();
 
     gameView.displayScreen(game);

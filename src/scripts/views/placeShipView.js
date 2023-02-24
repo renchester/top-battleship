@@ -1,5 +1,3 @@
-import View from './view';
-
 const placeShipView = (() => {
   const boardEl = document.querySelector('.board__ship-placement');
   const shipsEl = [...document.querySelectorAll('.ship__wrapper')];
