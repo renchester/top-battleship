@@ -2,7 +2,7 @@ import View from './view';
 
 const placeShipView = (() => {
   const boardEl = document.querySelector('.board__ship-placement');
-  const shipsEl = document.querySelector('.ships__display');
+  const shipsEl = [...document.querySelectorAll('.ship__wrapper')];
 
   const btnRotate = document.querySelector('.btn__rotate-ship');
 
@@ -26,7 +26,17 @@ const placeShipView = (() => {
     boardEl.insertAdjacentHTML('afterbegin', markup);
   };
 
+  const renderShip = (ship) => {
+    shipsEl.forEach((el) => el.classList.remove('ship__wrapper-active'));
+
+    shipsEl
+      .find((el) => el.dataset.ship === ship.name)
+      .classList.add('ship__wrapper-active');
+  };
+
   const addHandlerFindShipSquares = (ship, handler) => {
+    renderShip(ship);
+
     const squares = [...boardEl.querySelectorAll('.square')];
 
     squares.forEach((el) => {
