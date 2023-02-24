@@ -11,7 +11,7 @@
   grid-template-columns: repeat(var(--board-dimension), 1fr);
   grid-template-rows: repeat(var(--board-dimension), 1fr);
   height: fit-content;
-  width: clamp(300px, 100%, 550px);
+  width: clamp(300px, 100%, 490px);
   gap: var(--board-gap);
   background-color: var(--color-primary);
 
@@ -20,61 +20,6 @@
 
   &__ship-placement {
     position: relative;
-
-    & .ships__display {
-      --ship-icon-size: 15px;
-
-      @extend %absolute-element__center-self;
-      left: calc(100% + 100px);
-
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
-
-      & .ship__wrapper {
-        display: flex;
-        flex-direction: column;
-        padding: 20px;
-        border-radius: 12px;
-        cursor: default;
-      }
-
-      & .ship__wrapper-active {
-        background-color: var(--color-primary);
-        color: var(--color-grey-light-1);
-      }
-
-      & .ship__label {
-        font-family: var(--font-press-start);
-        font-size: var(--text-xs);
-        text-align: left;
-      }
-
-      & .ship__icon-wrapper {
-        display: flex;
-        gap: 3px;
-        margin-top: 4px;
-      }
-
-      & .ship__icon-square {
-        position: relative;
-        width: var(--ship-icon-size);
-        height: var(--ship-icon-size);
-        border-radius: 2px;
-        border: 1.5px solid currentColor;
-
-        &::after {
-          // @extend %absolute-element__center-self;
-
-          content: 'x';
-          position: absolute;
-          left: 50%;
-          top: 50%;
-          transform: translate(-60%, -60%);
-          font-size: var(--text-xs);
-        }
-      }
-    }
   }
 
   &__self,
@@ -96,10 +41,6 @@
 }
 
 .square {
-  // --square-dimension: 45px;
-  // width: var(--square-dimension);
-  // height: var(--square-dimension);
-
   aspect-ratio: 1 / 1;
   border: 1px solid var(--color-square-border);
   border-radius: 3px;

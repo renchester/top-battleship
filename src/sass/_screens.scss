@@ -21,6 +21,12 @@
       font-size: var(--text-lg);
     }
 
+    & .message__start {
+      display: block;
+      font-size: var(--text-xl);
+      width: 75%;
+    }
+
     & .form__player-name {
       display: flex;
       flex-direction: column;
@@ -47,11 +53,79 @@
 
   &__ship-placement {
     align-items: center;
+    justify-content: start;
 
     & .message__ship-placement {
       margin-bottom: 20px;
       font-size: var(--text-sm);
       font-family: var(--font-press-start);
+      text-align: center;
+    }
+
+    & .ships__display {
+      --ship-icon-size: 15px;
+
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+
+      margin-bottom: 20px;
+
+      & .ship__wrapper {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 20px;
+        border-radius: 12px;
+        cursor: default;
+
+        @media screen and (max-width: 750px) {
+          & {
+            padding: 10px;
+          }
+        }
+      }
+
+      & .ship__wrapper-active {
+        background-color: var(--color-primary);
+        color: var(--color-grey-light-1);
+      }
+
+      & .ship__label {
+        font-family: var(--font-press-start);
+        font-size: var(--text-xs);
+        text-align: left;
+      }
+
+      & .ship__icon-wrapper {
+        display: flex;
+        gap: 3px;
+        margin-top: 4px;
+      }
+
+      & .ship__icon-square {
+        position: relative;
+        width: var(--ship-icon-size);
+        height: var(--ship-icon-size);
+        border-radius: 2px;
+        border: 1.5px solid currentColor;
+
+        &::after {
+          content: 'x';
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-60%, -60%);
+          font-size: var(--text-xs);
+        }
+      }
+
+      @media screen and (max-width: 550px) {
+        & {
+          display: none;
+        }
+      }
     }
 
     & .btn-container__ship-placement {
@@ -75,7 +149,10 @@
 
       & .overlay__winner-display {
         position: absolute;
-        background-color: rgba(253, 153, 23, 0.85); //put in base as variable
+        background-color: var(
+          --color-winner-display,
+          rgba(253, 153, 23, 0.85)
+        ); //put in base as variable
         height: 100%;
         width: 100%;
         border-radius: 15px;
@@ -92,6 +169,7 @@
         & .message {
           font-family: var(--font-press-start);
           margin: 0 25px;
+          text-align: center;
         }
 
         & .message__winner-main {

@@ -93,6 +93,8 @@ body {
   --color-square-base-hover: #99e992;
   --color-square-has-ship: #cf2525;
   --color-square-damaged: #46bccc;
+
+  --color-winner-display: rgba(250, 171, 67, 0.85);
   // --color-square-damaged: #dfa427;
 
   /* FONT FAMILY VARIABLES */
@@ -139,6 +141,8 @@ body.dark-mode {
 
   --color-square-damaged: #c8caff;
   --color-square-has-ship: #ff5623;
+
+  --color-winner-display: rgba(172, 97, 0, 0.85);
 }
 
 body {
@@ -156,7 +160,7 @@ body {
 }
 
 .header {
-  --header-logo-size: 3.5rem;
+  --header-logo-size: clamp(2rem, 0.3333rem + 8.8889vw, 3.5rem);
   @extend %center-all-children;
 
   position: relative;
