@@ -24,6 +24,28 @@
     background-color: var(--color-accent);
     color: var(--color-grey-light-1);
   }
+
+  &__rotate-ship {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    padding: 15px 25px;
+    width: 100%;
+
+    & .btn__rotate-label {
+      font-size: var(--text-xs);
+    }
+
+    & .key-shortcut {
+      border: 1px solid currentColor;
+      border-radius: 5px;
+      width: fit-content;
+      padding: 7px;
+
+      font-size: var(--text-xxs);
+    }
+  }
 }
 
 .switch {
