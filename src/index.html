@@ -56,54 +56,53 @@
 
       <div class="screen screen__ship-placement hidden">
         <div class="message message__ship-placement">
-          Click on a ship and place it on the board
+          Place your ships on the board
         </div>
-        <div class="board board__ship-placement">
-          <div class="ships__display">
-            <div class="ship__wrapper ship__wrapper-active" data-ship="carrier">
-              <span class="ship__label">Carrier</span>
-              <div class="ship__icon-wrapper">
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-              </div>
+        <div class="ships__display">
+          <div class="ship__wrapper ship__wrapper-active" data-ship="carrier">
+            <span class="ship__label">Carrier</span>
+            <div class="ship__icon-wrapper">
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
             </div>
-            <div class="ship__wrapper" data-ship="battleship">
-              <span class="ship__label">Battleship</span>
-              <div class="ship__icon-wrapper">
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-              </div>
+          </div>
+          <div class="ship__wrapper" data-ship="battleship">
+            <span class="ship__label">Battleship</span>
+            <div class="ship__icon-wrapper">
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
             </div>
-            <div class="ship__wrapper" data-ship="destroyer">
-              <span class="ship__label">Destroyer</span>
-              <div class="ship__icon-wrapper">
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-              </div>
+          </div>
+          <div class="ship__wrapper" data-ship="destroyer">
+            <span class="ship__label">Destroyer</span>
+            <div class="ship__icon-wrapper">
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
             </div>
-            <div class="ship__wrapper" data-ship="submarine">
-              <span class="ship__label">Submarine</span>
-              <div class="ship__icon-wrapper">
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-              </div>
+          </div>
+          <div class="ship__wrapper" data-ship="submarine">
+            <span class="ship__label">Submarine</span>
+            <div class="ship__icon-wrapper">
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
             </div>
-            <div class="ship__wrapper" data-ship="patroller">
-              <span class="ship__label">Patroller</span>
-              <div class="ship__icon-wrapper">
-                <div class="ship__icon-square"></div>
-                <div class="ship__icon-square"></div>
-              </div>
+          </div>
+          <div class="ship__wrapper" data-ship="patroller">
+            <span class="ship__label">Patroller</span>
+            <div class="ship__icon-wrapper">
+              <div class="ship__icon-square"></div>
+              <div class="ship__icon-square"></div>
             </div>
           </div>
         </div>
+        <div class="board board__ship-placement"></div>
         <div class="btn-container__ship-placement">
           <button type="button" class="btn btn__rotate-ship">
             <div class="btn__rotate-label">Rotate Ship</div>
@@ -127,6 +126,15 @@
             </button>
           </div>
         </div>
+
+        <aside class="battle-log hidden">
+          <h3 class="battle-log__label">Battle log</h3>
+          <div class="battle-log__entry-wrapper">
+            <div class="battle-log__entry">
+              The battle has begun. Start attacking the enemy waters
+            </div>
+          </div>
+        </aside>
       </div>
     </main>
     <footer class="footer">
