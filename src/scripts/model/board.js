@@ -31,10 +31,6 @@ const Board = (gridLength = 10) => {
       );
     },
 
-    checkShipPlacementValidity(target) {
-      return !(!target || target.hasShip);
-    },
-
     getValidSquaresToPlaceShipOn(origin, ship) {
       const [row, col] = origin;
 
@@ -60,7 +56,11 @@ const Board = (gridLength = 10) => {
         }
       }
 
-      return targetSquares;
+      const surroundingSquares = this.getAdjacentSquares(targetSquares);
+
+      return surroundingSquares.some((square) => square.hasShip)
+        ? false
+        : targetSquares;
     },
 
     placeShip(coordinates, ship) {
@@ -79,13 +79,7 @@ const Board = (gridLength = 10) => {
       return true;
     },
 
-    getExplodedSquares(coordinates) {
-      const shipToExplode = this.findSquareWithRowCol(coordinates).shipName;
-
-      const shipSquares = state.filter(
-        (square) => square.shipName === shipToExplode,
-      );
-
+    getAdjacentSquares(shipSquares) {
       const surroundingSquares = [];
       const surroundingValues = [-1, 0, 1];
 
@@ -97,12 +91,26 @@ const Board = (gridLength = 10) => {
               +square.column + surroundingValues[j],
             ]);
 
-            surroundingSquares.push(targetSquare);
+            if (
+              targetSquare &&
+              !surroundingSquares.find((sq) => sq.id === targetSquare.id)
+            )
+              surroundingSquares.push(targetSquare);
           }
         }
       });
 
       return surroundingSquares;
+    },
+
+    getExplodedSquares(coordinates) {
+      const shipToExplode = this.findSquareWithRowCol(coordinates).shipName;
+
+      const shipSquares = state.filter(
+        (square) => square.shipName === shipToExplode,
+      );
+
+      return this.getAdjacentSquares(shipSquares);
     },
   };
 
