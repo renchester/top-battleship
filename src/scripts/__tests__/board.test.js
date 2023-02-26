@@ -34,23 +34,18 @@ describe('board', () => {
   });
 
   test('fills up correct coordinates when placing a ship', () => {
-    const horizontalShip = Ship(2, 'patroller');
-    const verticalShip = Ship(3, 'destroyer');
+    sampleBoard.placeShip([1, 1], Ship(2));
+    sampleBoard.placeShip([1, 3], Ship(2));
 
-    horizontalShip.orientation = 'horizontal';
-    verticalShip.orientation = 'vertical';
-
-    sampleBoard.placeShip([1, 1], horizontalShip);
-    sampleBoard.placeShip([1, 3], verticalShip);
-
-    // horizontal ship
+    // ship 1
     expect(sampleBoard.state[0].hasShip).toBe(true);
-    expect(sampleBoard.state[1].hasShip).toBe(true);
+    expect(sampleBoard.state[3].hasShip).toBe(true);
 
-    // vertical ship
+    // ship 2
     expect(sampleBoard.state[2].hasShip).toBe(true);
     expect(sampleBoard.state[5].hasShip).toBe(true);
-    expect(sampleBoard.state[8].hasShip).toBe(true);
+
+    expect(sampleBoard.state[1].hasShip).toBe(false);
   });
 
   test('returns error/false when placing ship on a filled square', () => {
